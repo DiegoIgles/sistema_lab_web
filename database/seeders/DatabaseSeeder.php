@@ -20,5 +20,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678')
         ]);
+
+        $this->call([
+            UserSeeder::class,          // Crea usuarios
+            CuposPorHoraSeeder::class,  // Crea cupos por hora
+            CitasSeeder::class,         // Crea citas
+        ]);
     }
 }
