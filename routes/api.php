@@ -4,6 +4,7 @@ use App\Http\Controllers\AfiliadoController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\UserPermissionController;
@@ -58,3 +59,6 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 Route::get('servicios', [ServicioController::class, 'index']);
 Route::post('servicios/id', [ServicioController::class, 'show']);
 Route::post('servicios/id_afiliado',[ServicioController::class,'show2']);
+
+//laoratorio
+Route::get('laboratorios', [LaboratorioController::class, 'index']);
