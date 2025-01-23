@@ -11,4 +11,6 @@ class LaboratorioController extends Controller
         $laboratorios = Laboratorio::all();
         return $laboratorios;
     }
+
+
 }

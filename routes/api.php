@@ -3,10 +3,13 @@
 use App\Http\Controllers\AfiliadoController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CentroMedicoController;
+use App\Http\Controllers\CentrosmedicosPorLaboratorio;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\ServicioLabController;
 use App\Http\Controllers\UserPermissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,3 +65,27 @@ Route::post('servicios/id_afiliado',[ServicioController::class,'show2']);
 
 //laoratorio
 Route::get('laboratorios', [LaboratorioController::class, 'index']);
+
+//solserviciolab
+
+Route::get('servicioslab', [ServicioLabController::class, 'index']);
+Route::post('servicioslab/id_servicio', [ServicioLabController::class, 'show']);
+
+//centros medicos
+Route::get('centros', [CentroMedicoController::class, 'index']);
+Route::post('centros/create', [CentroMedicoController::class, 'store']);
+
+
+//centros medicos por laboratorio
+Route::post('/laboratorios/centros-medicos', [CentrosmedicosPorLaboratorio::class, 'centrosMedicosPorLaboratorio']);
+
+
+//asociar centro medico con lab
+Route::post('/centros-medicos/asociar-laboratorio', [CentroMedicoController::class, 'asociarLaboratorio']);
+
+
+//eliminar centro medico
+Route::post('/centros-medicos/eliminar', [CentroMedicoController::class, 'destroy']);
+
+//eliminar relaciones
+Route::post('/centros-medicos/eliminar-relacion', [CentroMedicoController::class, 'eliminarRelacion']);
