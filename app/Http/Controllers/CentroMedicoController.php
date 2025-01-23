@@ -47,22 +47,23 @@ class CentroMedicoController extends Controller
     }
 
     public function asociarLaboratorio(Request $request)
-    {
-        // Validar que se envíen los datos correctos
-        $request->validate([
-            'centros_medicos_id' => 'required|integer|exists:centros_medicos,id',
-            'laboratorio_id' => 'required|integer|exists:laboratorio,id',
-        ]);
+{
+    // Validar que se envíen los datos correctos
+    $request->validate([
+        'centros_medicos_id' => 'required|integer|exists:centros_medicos,id',
+        'laboratorio_id' => 'required|integer|exists:laboratorio,id',
+    ]);
 
-        // Obtener el centro médico y asociar el laboratorio
-        $centroMedico = CentroMedico::find($request->centros_medicos_id);
-        $centroMedico->laboratorios()->attach($request->laboratorio_id);
+    // Obtener el centro médico
+    $centroMedico = CentroMedico::find($request->centros_medicos_id);
 
-        return response()->json([
-            'message' => 'Laboratorio asociado exitosamente.',
-        ]);
-    }
+    // Asociar el laboratorio solo si no está ya asociado
+    $centroMedico->laboratorios()->syncWithoutDetaching($request->laboratorio_id);
 
+    return response()->json([
+        'message' => 'Laboratorio asociado exitosamente.',
+    ]);
+}
 
     public function destroy(Request $request)
 {
