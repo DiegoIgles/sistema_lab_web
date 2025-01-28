@@ -89,3 +89,5 @@ Route::post('/centros-medicos/eliminar', [CentroMedicoController::class, 'destro
 
 //eliminar relaciones
 Route::post('/centros-medicos/eliminar-relacion', [CentroMedicoController::class, 'eliminarRelacion']);
+
+
