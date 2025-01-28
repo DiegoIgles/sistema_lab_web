@@ -77,4 +77,5 @@ public function eliminarRelacion(Request $request)
 
     return back()->with('success', 'Relación eliminada exitosamente.');
 }
+
 }
