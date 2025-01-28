@@ -107,6 +107,4 @@ public function eliminarRelacion(Request $request)
 
     return response()->json(['message' => 'Relación eliminada exitosamente.']);
 }
-
-
 }

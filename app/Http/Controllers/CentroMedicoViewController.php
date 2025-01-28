@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CentroMedico;
+use App\Models\Laboratorio;
 use Illuminate\Http\Request;
 
 class CentroMedicoViewController extends Controller
@@ -46,4 +47,34 @@ class CentroMedicoViewController extends Controller
 
         return redirect()->route('centros.index')->with('success', 'Centro Médico eliminado exitosamente.');
     }
+
+
+    public function showEliminarRelacion()
+{
+    $centrosMedicos = CentroMedico::all();
+    $laboratorios = Laboratorio::all(); // Asegúrate de que 'Laboratorio' es el modelo correcto
+    return view('centros.eliminar-relacion', compact('centrosMedicos', 'laboratorios'));
+}
+
+public function eliminarRelacion(Request $request)
+{
+    // Validar los datos
+    $request->validate([
+        'centros_medicos_id' => 'required|integer|exists:centros_medicos,id',
+        'laboratorio_id' => 'required|integer|exists:laboratorio,id',
+    ]);
+
+    // Buscar el centro médico
+    $centroMedico = CentroMedico::find($request->centros_medicos_id);
+
+    // Verificar si la relación existe
+    if (!$centroMedico->laboratorios()->where('laboratorio.id', $request->laboratorio_id)->exists()) {
+        return back()->with('error', 'La relación no existe.');
+    }
+
+    // Eliminar la relación
+    $centroMedico->laboratorios()->detach($request->laboratorio_id);
+
+    return back()->with('success', 'Relación eliminada exitosamente.');
+}
 }

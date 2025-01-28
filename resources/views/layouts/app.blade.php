@@ -30,6 +30,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('relaciones.create') }}">Añadir Laboratorio</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('centros.show-eliminar-relacion') }}">Eliminar Laboratorio</a>
+                    </li>
 
                 </ul>
             </div>
