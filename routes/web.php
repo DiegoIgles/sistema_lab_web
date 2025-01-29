@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\CentroMedicoController;
 use App\Http\Controllers\CentroMedicoViewController;
 use App\Http\Controllers\RelacionController;
@@ -41,4 +42,6 @@ Route::get('/relaciones/create', [RelacionController::class, 'create'])->name('r
 Route::get('/relaciones', [RelacionController::class, 'index'])->name('relaciones.index');
 Route::post('/relaciones', [RelacionController::class, 'store'])->name('relaciones.store');
 
+//bitacora
+Route::get('/bitacora', [BitacoraController::class, 'verBitacora'])->name('bitacora.index');
 

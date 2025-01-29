@@ -38,7 +38,7 @@
 </head>
 <body>
 
-<h1>Asociar Laboratorio con Centro Médico</h1>
+<h1>Habilitar Laboratorio</h1>
 
 @if (session('success'))
     <div style="color: green; text-align: center;">

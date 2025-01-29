@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 //solservicios
 Route::get('servicios', [ServicioController::class, 'index']);
 Route::post('servicios/id', [ServicioController::class, 'show']);
-Route::post('servicios/id_afiliado',[ServicioController::class,'show2']);
+Route::post('servicios/id_afiliado',[ServicioController::class,'getServiciosLaboratorio']);
 
 //laoratorio
 Route::get('laboratorios', [LaboratorioController::class, 'index']);

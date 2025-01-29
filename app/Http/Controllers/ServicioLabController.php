@@ -25,7 +25,7 @@ class ServicioLabController extends Controller
                 'message' => 'No se encontraron servicios para este afiliado.'
             ], 404);
         }
-
+     
         // Agregar nombre del laboratorio a cada servicio
         $servicioslabConNombre = $servicioslab->map(function ($servicioLab) {
             $laboratorio = Laboratorio::find($servicioLab->laboratorio_id);

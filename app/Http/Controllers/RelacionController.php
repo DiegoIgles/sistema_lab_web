@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitacora;
 use App\Models\CentroMedico;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
@@ -29,9 +30,15 @@ class RelacionController extends Controller
 
         // Obtener el centro médico
         $centroMedico = CentroMedico::find($request->centros_medicos_id);
+        $laboratorio = Laboratorio::find($request->laboratorio_id);
 
         // Asociar el laboratorio
         $centroMedico->laboratorios()->syncWithoutDetaching($request->laboratorio_id);
+        Bitacora::create([
+            'accion' => 'HABILITADO', // La acción es "habilitado"
+            'nombre_laboratorio' => $laboratorio->nombre,
+            'nombre_centro_medico' => $centroMedico->nombre,
+        ]);
 
         return redirect()->route('relaciones.create')->with('success', 'Laboratorio asociado exitosamente.');
     }

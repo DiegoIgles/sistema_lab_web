@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Mi Aplicación')</title>
+    <title>@yield('title', 'Sistema Laboratorio')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -31,7 +31,10 @@
                         <a class="nav-link" href="{{ route('relaciones.create') }}">Añadir Laboratorio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('centros.show-eliminar-relacion') }}">Eliminar Laboratorio</a>
+                        <a class="nav-link" href="{{ route('centros.show-eliminar-relacion') }}">Deshabilitar Laboratorio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('bitacora.index') }}">Bitacora</a>
                     </li>
 
                 </ul>

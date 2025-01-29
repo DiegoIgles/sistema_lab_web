@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <h1>Eliminar Relación entre Centro Médico y Laboratorio</h1>
+    <h1>Deshabilitar Laboratorio</h1>
 
     <!-- Mensajes de éxito o error -->
     @if(session('success'))

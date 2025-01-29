@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitacora;
 use App\Models\CentroMedico;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ public function eliminarRelacion(Request $request)
 
     // Buscar el centro médico
     $centroMedico = CentroMedico::find($request->centros_medicos_id);
+    $laboratorio = Laboratorio::find($request->laboratorio_id);
 
     // Verificar si la relación existe
     if (!$centroMedico->laboratorios()->where('laboratorio.id', $request->laboratorio_id)->exists()) {
@@ -74,6 +76,13 @@ public function eliminarRelacion(Request $request)
 
     // Eliminar la relación
     $centroMedico->laboratorios()->detach($request->laboratorio_id);
+
+// Registrar la acción en la bitácora
+Bitacora::create([
+    'accion' => 'DESHABILITADO', // La acción es "DESHABILITADO"
+    'nombre_laboratorio' => $laboratorio->nombre,
+    'nombre_centro_medico' => $centroMedico->nombre,
+]);
 
     return back()->with('success', 'Relación eliminada exitosamente.');
 }
