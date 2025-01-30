@@ -41,56 +41,7 @@
         </table>
 
         <div class="text-center mt-3">
-            <a href="{{ route('centros.create') }}" class="btn btn-primary">Crear Nuevo Centro Médico</a>
+            <a href="{{ route('centros.create') }}" class="btn btn-success">Crear Nuevo Centro Médico</a>
         </div>
     </div>
-
-    <style>
-        body {
-            background-color: #f4f7fc;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        table {
-            margin-top: 20px;
-        }
-
-        .table {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn {
-            cursor: pointer;
-        }
-
-        .btn-danger:hover {
-            background-color: #e54d3c;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-           background-color: #4CAF50;
-           border: #4CAF50
-    }
-
-        .btn-primary:hover {
-            background-color: #148518;
-
-        }
-    </style>
 @endsection

@@ -27,6 +27,17 @@ class Laboratorio extends Model
         'nombre',
 
     ];
+
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'grupo_laboratorio', 'laboratorio_id', 'grupo_id');
+    }
+
+    public function obtenerGrupo()
+    {
+        return $this->grupos->first(); // Devuelve el primer grupo, ya que un laboratorio puede estar asociado a varios grupos.
+    }
+
     public function centrosMedicos()
     {
         return $this->belongsToMany(CentroMedico::class, 'laboratorio_centromedico', 'laboratorio_id', 'centros_medicos_id');

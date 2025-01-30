@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CentroMedicoController;
 use App\Http\Controllers\CentrosmedicosPorLaboratorio;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ServicioController;
@@ -78,6 +79,8 @@ Route::post('centros/create', [CentroMedicoController::class, 'store']);
 
 //centros medicos por laboratorio
 Route::post('/laboratorios/centros-medicos', [CentrosmedicosPorLaboratorio::class, 'centrosMedicosPorLaboratorio']);
+//centros medicos por laboratorios (array)
+Route::post('/centros-medicos/por-laboratorios', [CentrosmedicosPorLaboratorio::class, 'centrosMedicosPorLaboratorios']);
 
 
 //asociar centro medico con lab
@@ -91,3 +94,31 @@ Route::post('/centros-medicos/eliminar', [CentroMedicoController::class, 'destro
 Route::post('/centros-medicos/eliminar-relacion', [CentroMedicoController::class, 'eliminarRelacion']);
 
 
+//grupos
+
+
+// Obtener todos los grupos con sus laboratorios
+Route::get('grupos', [GrupoController::class, 'index']);
+
+// Crear un nuevo grupo
+Route::post('grupos', [GrupoController::class, 'store']);
+
+// Asignar un laboratorio a un grupo
+Route::post('/asignar-laboratorio', [GrupoController::class, 'asignarLaboratorio']);
+
+
+// Obtener todos los laboratorios de un grupo
+Route::post('/obtener-laboratorios', [GrupoController::class, 'obtenerLaboratorios']);
+
+//grupos con lab de un afiliado
+Route::post('grupos-con-laboratorios', [GrupoController::class, 'getGruposConLaboratorios']);
+
+//eliminar grupo
+Route::delete('grupo/eliminar', [GrupoController::class, 'eliminarGrupo']);
+
+//eliminar asociacion entre grupo y lab
+Route::delete('grupo/laboratorio/eliminar', [GrupoController::class, 'eliminarAsociacionGrupoLaboratorio']);
+
+
+//laboratoiro por servicio y grupo
+Route::post('laboratorios-por-grupo-y-servicio', [GrupoController::class, 'getLaboratoriosPorGrupoYServicio']);

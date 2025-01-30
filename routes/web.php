@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\CentroMedicoController;
 use App\Http\Controllers\CentroMedicoViewController;
+use App\Http\Controllers\GrupoViewController;
 use App\Http\Controllers\RelacionController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,22 @@ Route::post('/relaciones', [RelacionController::class, 'store'])->name('relacion
 
 //bitacora
 Route::get('/bitacora', [BitacoraController::class, 'verBitacora'])->name('bitacora.index');
+
+//grupos vistas
+Route::get('/grupos', [GrupoViewController::class, 'index'])->name('grupos.index');
+//crear grupo
+Route::post('/grupos', [GrupoViewController::class, 'store'])->name('grupos.store');
+// Ruta para mostrar el formulario de creación de un grupo (GET)
+Route::get('/grupos/create', [GrupoViewController::class, 'create'])->name('grupos.create');
+//asignar lab a grupo
+Route::post('/grupos/asignar-laboratorio', [GrupoViewController::class, 'asignarLaboratorio'])->name('grupos.asignarLaboratorio');
+Route::get('/grupos/asignar-laboratorio', [GrupoViewController::class, 'asignarLaboratorioView'])->name('grupos.asignarLaboratorioView');
+Route::get('/grupos/eliminar', [GrupoViewController::class, 'eliminarGrupoView'])->name('grupos.eliminar.view');
+Route::delete('/grupos/eliminar', [GrupoViewController::class, 'eliminarGrupo'])->name('grupos.destroy');
+
+
+// eliminar aso
+Route::get('/grupos/eliminar-asociacion', [GrupoViewController::class, 'eliminarAsociacionView'])->name('grupos.eliminarAsociacionView');
+Route::delete('/grupos/eliminar-asociacion', [GrupoViewController::class, 'eliminarAsociacionGrupoLaboratorio'])->name('grupos.eliminarAsociacion');
+
 

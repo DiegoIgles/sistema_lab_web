@@ -77,12 +77,12 @@ public function eliminarRelacion(Request $request)
     // Eliminar la relación
     $centroMedico->laboratorios()->detach($request->laboratorio_id);
 
-// Registrar la acción en la bitácora
-Bitacora::create([
+   // Registrar la acción en la bitácora
+   Bitacora::create([
     'accion' => 'DESHABILITADO', // La acción es "DESHABILITADO"
     'nombre_laboratorio' => $laboratorio->nombre,
     'nombre_centro_medico' => $centroMedico->nombre,
-]);
+    ]);
 
     return back()->with('success', 'Relación eliminada exitosamente.');
 }

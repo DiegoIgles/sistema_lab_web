@@ -21,9 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('centros.index') }}">Centros Medico</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('centros.create') }}">Añadir Centro Medico</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('relaciones.index') }}">Laboratorios</a>
                     </li>
@@ -32,6 +30,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('centros.show-eliminar-relacion') }}">Deshabilitar Laboratorio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('grupos.index') }}">Grupos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('grupos.eliminarAsociacionView') }}">Modificar Grupos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bitacora.index') }}">Bitacora</a>
