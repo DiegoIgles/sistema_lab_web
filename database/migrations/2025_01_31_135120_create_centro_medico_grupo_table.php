@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bitacora', function (Blueprint $table) {
+        Schema::create('centro_medico_grupo', function (Blueprint $table) {
             $table->id();
-            $table->string('accion'); // Acción: 'habilitado' o 'deshabilitado'
-            $table->string('nombre_laboratorio');
-            $table->string('nombre_centro_medico');
-            $table->timestamp('fecha_accion')->useCurrent(); // Fecha de la acción
+            $table->foreignId('centro_medico_id')->constrained('centros_medicos')->onDelete('cascade');
+            $table->foreignId('grupo_id')->constrained('grupos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bitacora');
+        Schema::dropIfExists('centro_medico_grupo');
     }
 };

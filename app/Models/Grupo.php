@@ -11,12 +11,15 @@ class Grupo extends Model
 
     protected $table = 'grupos';
 
-    protected $fillable = ['id', 'nombre']; // Ajusta según tu base de datos
+    protected $fillable = [ 'nombre']; // Ajusta según tu base de datos
 
     // Relación: Un grupo tiene muchos laboratorios
     public function laboratorios()
 {
     return $this->belongsToMany(Laboratorio::class, 'grupo_laboratorio', 'grupo_id', 'laboratorio_id');
 }
-
+public function centrosMedicos()
+{
+    return $this->belongsToMany(CentroMedico::class, 'centro_medico_grupo', 'grupo_id', 'centro_medico_id');
+}
 }

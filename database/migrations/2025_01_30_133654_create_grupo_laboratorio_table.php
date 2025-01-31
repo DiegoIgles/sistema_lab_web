@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('grupo_laboratorio', function (Blueprint $table) {
-            $table->id();
-        $table->foreignId('grupo_id')->constrained()->onDelete('cascade');
-        $table->foreignId('laboratorio_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
+            $table->id();  // Clave primaria
+            $table->foreignId('grupo_id')->constrained('grupos')->onDelete('cascade');  // Relación con la tabla 'grupos'
+            $table->foreignId('laboratorio_id')->unsigned();  // Relación con la tabla 'laboratorios'
+            $table->timestamps();  // Campos created_at y updated_at
         });
     }
 

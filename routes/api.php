@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AfiliadoController;
+use App\Http\Controllers\ApiCentroMedicoPorGrupoController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CentroMedicoController;
@@ -122,3 +123,6 @@ Route::delete('grupo/laboratorio/eliminar', [GrupoController::class, 'eliminarAs
 
 //laboratoiro por servicio y grupo
 Route::post('laboratorios-por-grupo-y-servicio', [GrupoController::class, 'getLaboratoriosPorGrupoYServicio']);
+
+//centros medicos por grupo
+Route::post('/centros-medicos-por-grupo', [ApiCentroMedicoPorGrupoController::class, 'centrosMedicosPorGrupo']);

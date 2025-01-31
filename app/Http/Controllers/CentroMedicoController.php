@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitacora;
 use App\Models\CentroMedico;
+use App\Models\Grupo;
 use Illuminate\Http\Request;
 
 class CentroMedicoController extends Controller
@@ -106,5 +108,48 @@ public function eliminarRelacion(Request $request)
     $centroMedico->laboratorios()->detach($request->laboratorio_id);
 
     return response()->json(['message' => 'Relación eliminada exitosamente.']);
+}
+public function destroyAssociation(Request $request)
+{
+    // Obtener los datos del Centro Médico y Grupo seleccionados
+    $centroMedicoId = $request->input('centro_medico_id');
+    $grupoId = $request->input('grupo_id');
+
+    // Validar que ambos valores fueron seleccionados
+    if (!$centroMedicoId || !$grupoId) {
+        return redirect()->back()->with('error', 'Debe seleccionar tanto un Centro Médico como un Grupo.');
+    }
+
+    // Obtener el Centro Médico y el Grupo
+    $centroMedico = CentroMedico::findOrFail($centroMedicoId);
+    $grupo = Grupo::findOrFail($grupoId);
+
+    // Verificar si la relación existe
+    if (!$centroMedico->grupos->contains($grupo)) {
+        return redirect()->back()->with('error', 'Grupos no relacionados.');
+    }
+
+    // Eliminar la asociación entre el Centro Médico y el Grupo
+    $centroMedico->grupos()->detach($grupoId);
+
+   //centro medico
+   Bitacora::create([
+    'accion' => 'DESHABILITADO',
+    'nombre_laboratorio' => $grupo->nombre,
+    'nombre_centro_medico' => $centroMedico->nombre,
+    'fecha_accion' => now(),
+    ]);
+
+    // Redirigir con mensaje de éxito
+    return redirect()->route('centrosMedicos.showRemoveAssociation')->with('success', 'La asociación entre el Centro Médico y el Grupo ha sido eliminada.');
+}
+public function showRemoveAssociation()
+{
+    // Obtener todos los Centros Médicos y Grupos disponibles
+    $centrosMedicos = CentroMedico::all();
+    $grupos = Grupo::all();
+
+    // Mostrar la vista donde se puede seleccionar el Centro Médico y el Grupo
+    return view('centro_medico_grupo.removeAssociation', compact('centrosMedicos', 'grupos'));
 }
 }

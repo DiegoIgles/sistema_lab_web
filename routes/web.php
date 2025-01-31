@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\CentroMedicoController;
+use App\Http\Controllers\CentroMedicoGrupoController;
 use App\Http\Controllers\CentroMedicoViewController;
 use App\Http\Controllers\GrupoViewController;
 use App\Http\Controllers\RelacionController;
@@ -63,4 +64,11 @@ Route::delete('/grupos/eliminar', [GrupoViewController::class, 'eliminarGrupo'])
 Route::get('/grupos/eliminar-asociacion', [GrupoViewController::class, 'eliminarAsociacionView'])->name('grupos.eliminarAsociacionView');
 Route::delete('/grupos/eliminar-asociacion', [GrupoViewController::class, 'eliminarAsociacionGrupoLaboratorio'])->name('grupos.eliminarAsociacion');
 
+//relacion entre grupos y centros medicos
 
+Route::get('centro-medico-grupo/create', [CentroMedicoGrupoController::class, 'create'])->name('centro_medico_grupo.create');
+Route::post('centro-medico-grupo', [CentroMedicoGrupoController::class, 'store'])->name('centro_medico_grupo.store');
+Route::get('centro-medico-grupo', [CentroMedicoGrupoController::class, 'index'])->name('centro_medico_grupo.index');
+// En routes/web.php
+Route::get('centros-medicos/eliminar-asociacion', [CentroMedicoController::class, 'showRemoveAssociation'])->name('centrosMedicos.showRemoveAssociation');
+Route::post('centros-medicos/eliminar-asociacion', [CentroMedicoController::class, 'destroyAssociation'])->name('centrosMedicos.destroyAssociation');

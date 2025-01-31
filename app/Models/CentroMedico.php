@@ -24,4 +24,8 @@ class CentroMedico extends Model
     {
         return $this->belongsToMany(Laboratorio::class, 'laboratorio_centromedico', 'centros_medicos_id', 'laboratorio_id');
     }
+    public function grupos()
+{
+    return $this->belongsToMany(Grupo::class, 'centro_medico_grupo', 'centro_medico_id', 'grupo_id');
+}
 }
