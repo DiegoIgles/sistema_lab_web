@@ -4,8 +4,13 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center">Lista de Grupos</h1>
+
+            <!-- Botón para deshabilitar asociación (redirige a 'grupos.eliminarAsociacionView') -->
+            <a href="{{ route('grupos.eliminarAsociacionView') }}" class="btn btn-danger">Deshabilitar Asociación</a>
+
             <!-- Botón para acceder a la vista de asociación de grupo y laboratorio -->
             <a href="{{ route('grupos.asignarLaboratorioView') }}" class="btn btn-success">Asignar Laboratorio a Grupo</a>
+
             <!-- Botón para crear un nuevo grupo -->
             <a href="{{ route('grupos.create') }}" class="btn btn-primary">Crear Nuevo Grupo</a>
         </div>
@@ -40,8 +45,7 @@
         </table>
 
         <!-- Botón para acceder a la vista de eliminación de grupos -->
-
-            <a href="{{ route('grupos.eliminar.view') }}" class="btn btn-danger">Eliminar Grupo</a>
+        <a href="{{ route('grupos.eliminar.view') }}" class="btn btn-danger">Eliminar Grupo</a>
 
     </div><br>
 @endsection

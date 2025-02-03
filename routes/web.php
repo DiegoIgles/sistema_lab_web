@@ -5,6 +5,7 @@ use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\CentroMedicoController;
 use App\Http\Controllers\CentroMedicoGrupoController;
 use App\Http\Controllers\CentroMedicoViewController;
+use App\Http\Controllers\CitaLaboratorioViewController;
 use App\Http\Controllers\GrupoViewController;
 use App\Http\Controllers\RelacionController;
 use Illuminate\Support\Facades\Route;
@@ -72,3 +73,15 @@ Route::get('centro-medico-grupo', [CentroMedicoGrupoController::class, 'index'])
 // En routes/web.php
 Route::get('centros-medicos/eliminar-asociacion', [CentroMedicoController::class, 'showRemoveAssociation'])->name('centrosMedicos.showRemoveAssociation');
 Route::post('centros-medicos/eliminar-asociacion', [CentroMedicoController::class, 'destroyAssociation'])->name('centrosMedicos.destroyAssociation');
+
+//admin listas de citas
+Route::get('/admin/disponibilidad', [CitaLaboratorioViewController::class, 'showDisponibilidadForm'])->name('admin.disponibilidad');
+
+//crearCitas admin
+Route::get('/admin/crear-cita', [CitaLaboratorioViewController::class, 'showCrearCitaForm'])->name('citas.create');
+Route::post('/admin/crear-cita', [CitaLaboratorioViewController::class, 'crearCita'])->name('citas.store');
+//eliminar cita
+Route::delete('/citas/{id}', [CitaLaboratorioViewController::class, 'eliminarCita'])->name('citas.eliminar');
+
+//admin reservas
+Route::get('/admin/reservas', [CitaLaboratorioViewController::class, 'obtenerReservasAdmin'])->name('admin.reservas');

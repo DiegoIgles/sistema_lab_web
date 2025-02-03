@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CentroMedicoController;
 use App\Http\Controllers\CentrosmedicosPorLaboratorio;
+use App\Http\Controllers\CitaLaboratorioController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\LaboratorioController;
@@ -126,3 +127,18 @@ Route::post('laboratorios-por-grupo-y-servicio', [GrupoController::class, 'getLa
 
 //centros medicos por grupo
 Route::post('/centros-medicos-por-grupo', [ApiCentroMedicoPorGrupoController::class, 'centrosMedicosPorGrupo']);
+
+//citalaboratorio
+Route::post('/disponibilidad', [CitaLaboratorioController::class, 'disponibilidad']);
+//crear cita
+Route::post('/crear-cita', [CitaLaboratorioController::class, 'crearCita']);
+//eliminar cita
+Route::delete('/eliminar-cita', [CitaLaboratorioController::class, 'eliminarCita']);
+//reservar cita
+Route::post('/reservar-cita', [CitaLaboratorioController::class, 'reservarCita']);
+//mostrar reservas
+Route::post('/reservas', [CitaLaboratorioController::class, 'mostrarReservas']);
+//eliminar reserva
+Route::post('/eliminar-reserva', [CitaLaboratorioController::class, 'eliminarReserva']);
+//reservas admin
+Route::get('reservas/admin', [CitaLaboratorioController::class, 'obtenerReservasAdmin']);

@@ -36,10 +36,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('grupos.index') }}">Grupos</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('grupos.eliminarAsociacionView') }}">Deshabilitar Asociacion </a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.disponibilidad') }}">Citas </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('citas.create') }}">Crear Citas </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.reservas') }}">Reservas </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bitacora.index') }}">Bitacora</a>
                     </li>
