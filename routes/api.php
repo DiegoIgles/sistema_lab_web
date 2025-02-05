@@ -11,6 +11,7 @@ use App\Http\Controllers\CitasController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\RecomendacionController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\ServicioLabController;
 use App\Http\Controllers\UserPermissionController;
@@ -142,3 +143,11 @@ Route::post('/reservas', [CitaLaboratorioController::class, 'mostrarReservas']);
 Route::post('/eliminar-reserva', [CitaLaboratorioController::class, 'eliminarReserva']);
 //reservas admin
 Route::get('reservas/admin', [CitaLaboratorioController::class, 'obtenerReservasAdmin']);
+
+//recomendaciones
+
+
+Route::post('/recomendaciones/store', [RecomendacionController::class, 'store']); // Crear recomendación
+Route::post('/recomendaciones/show', [RecomendacionController::class, 'show']); // Obtener recomendación
+Route::post('/recomendaciones/update', [RecomendacionController::class, 'update']); // Actualizar recomendación
+Route::post('/recomendaciones/destroy', [RecomendacionController::class, 'destroy']); // Eliminar recomendación

@@ -7,6 +7,7 @@ use App\Http\Controllers\CentroMedicoGrupoController;
 use App\Http\Controllers\CentroMedicoViewController;
 use App\Http\Controllers\CitaLaboratorioViewController;
 use App\Http\Controllers\GrupoViewController;
+use App\Http\Controllers\RecomendacionesViewController;
 use App\Http\Controllers\RelacionController;
 use Illuminate\Support\Facades\Route;
 
@@ -85,3 +86,10 @@ Route::delete('/citas/{id}', [CitaLaboratorioViewController::class, 'eliminarCit
 
 //admin reservas
 Route::get('/admin/reservas', [CitaLaboratorioViewController::class, 'obtenerReservasAdmin'])->name('admin.reservas');
+
+//recomendaciones vistas admin
+
+Route::get('/recomendaciones', [RecomendacionesViewController::class, 'index'])->name('recomendaciones.index');
+Route::get('/recomendaciones/create', [RecomendacionesViewController::class, 'create'])->name('recomendaciones.create');
+Route::post('/recomendaciones', [RecomendacionesViewController::class, 'store'])->name('recomendaciones.store');
+Route::delete('/recomendaciones/{id}', [RecomendacionesViewController::class, 'destroy'])->name('recomendaciones.destroy');

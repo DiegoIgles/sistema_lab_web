@@ -49,6 +49,9 @@
                         <a class="nav-link" href="{{ route('admin.reservas') }}">Reservas </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('recomendaciones.index') }}">Recomendaciones </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('bitacora.index') }}">Bitacora</a>
                     </li>
 

@@ -106,12 +106,19 @@ public function reservarCita(Request $request)
         'afiliado_id' => $request->afiliado_id,
         'cita_id' => $cita->id,
         'telefono' => $request->telefono, // Guardamos el teléfono también
+
     ]);
+
+  // Obtener la recomendación del grupo (si existe)
+  $recomendacion = $cita->grupo->recomendacion->descripcion ?? 'No hay recomendación para este grupo';
+
 
     // Responder con un mensaje de éxito y la información de la reserva
     return response()->json([
         'message' => 'Cita reservada con éxito',
-        'reserva' => $reserva
+        'reserva' => $reserva,
+        'grupo' => $cita->grupo->nombre ?? 'Grupo no encontrado',
+        'recomendacion' => $recomendacion
     ], 201);
 }
 
