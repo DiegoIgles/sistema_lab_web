@@ -11,9 +11,13 @@ class Recomendacion extends Model
 
     protected $table = 'recomendaciones';
 
-    protected $fillable = ['grupo_id', 'descripcion'];
+    protected $fillable = ['grupo_id', 'descripcion', 'laboratorio_id','tipo'];
 
     public function grupo() {
         return $this->belongsTo(Grupo::class);
     }
+    public function laboratorio()
+{
+    return $this->belongsTo(Laboratorio::class);
+}
 }

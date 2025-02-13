@@ -42,4 +42,8 @@ class Laboratorio extends Model
     {
         return $this->belongsToMany(CentroMedico::class, 'laboratorio_centromedico', 'laboratorio_id', 'centros_medicos_id');
     }
+    public function recomendacion()
+    {
+        return $this->hasOne(Recomendacion::class, 'laboratorio_id');
+    }
 }

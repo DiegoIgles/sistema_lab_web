@@ -1,42 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4">Lista de Grupos y sus Recomendaciones</h1>
+    <div class="container mt-5">
+        <h1>Recomendaciones</h1>
+        <a href="{{ route('recomendaciones.create') }}" class="btn btn-primary mb-3">Crear Recomendación</a>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+        <div class="row">
+            <!-- Recomendaciones por Grupo -->
+            <div class="col-md-6">
+                <h3>Recomendaciones por Grupo</h3>
+                @foreach($grupos as $grupo)
+                    @if($grupo->recomendacion)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $grupo->nombre }}</h5>
+                                <p class="card-text">{{ $grupo->recomendacion->descripcion }}</p>
 
-    <a href="{{ route('recomendaciones.create') }}" class="btn btn-primary mb-3">Nueva Recomendación</a>
+                                <!-- Formulario de eliminación -->
+                                <form action="{{ route('recomendaciones.destroy', $grupo->recomendacion->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta recomendación?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Grupo</th>
-                <th>Recomendación</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($grupos as $grupo)
-                <tr>
-                    <td>{{ $grupo->nombre }}</td>
-                    <td>{{ $grupo->recomendacion->descripcion ?? 'Sin recomendación' }}</td>
-                    <td>
-                        @if($grupo->recomendacion)
-                            <form action="{{ route('recomendaciones.destroy', $grupo->recomendacion->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        @else
-                            <span class="text-muted">No hay recomendación</span>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            <!-- Recomendaciones por Laboratorio -->
+            <div class="col-md-6">
+                <h3>Recomendaciones por Laboratorio</h3>
+                @foreach($laboratoriosConRecomendacion as $laboratorio)
+                    @if($laboratorio->recomendacion)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $laboratorio->nombre }}</h5>
+                                <p class="card-text">{{ $laboratorio->recomendacion->descripcion }}</p>
+
+                                <!-- Formulario de eliminación -->
+                                <form action="{{ route('recomendaciones.destroy', $laboratorio->recomendacion->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta recomendación?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
 @endsection

@@ -23,6 +23,6 @@ public function centrosMedicos()
     return $this->belongsToMany(CentroMedico::class, 'centro_medico_grupo', 'grupo_id', 'centro_medico_id');
 }
 public function recomendacion() {
-    return $this->hasOne(Recomendacion::class);
+    return $this->hasOne(Recomendacion::class, 'grupo_id');
 }
 }

@@ -128,6 +128,8 @@ Route::post('laboratorios-por-grupo-y-servicio', [GrupoController::class, 'getLa
 
 //centros medicos por grupo
 Route::post('/centros-medicos-por-grupo', [ApiCentroMedicoPorGrupoController::class, 'centrosMedicosPorGrupo']);
+//grupos por centro medico///////////////////
+Route::post('/grupos-por-centro-medico', [ApiCentroMedicoPorGrupoController::class, 'gruposPorCentroMedico']);
 
 //citalaboratorio
 Route::post('/disponibilidad', [CitaLaboratorioController::class, 'disponibilidad']);
@@ -151,3 +153,6 @@ Route::post('/recomendaciones/store', [RecomendacionController::class, 'store'])
 Route::post('/recomendaciones/show', [RecomendacionController::class, 'show']); // Obtener recomendación
 Route::post('/recomendaciones/update', [RecomendacionController::class, 'update']); // Actualizar recomendación
 Route::post('/recomendaciones/destroy', [RecomendacionController::class, 'destroy']); // Eliminar recomendación
+//recomendaciones por solservicioID
+Route::post('/recomendaciones/solservicio', [RecomendacionController::class, 'show2'])->name('recomendaciones.show2');
+
