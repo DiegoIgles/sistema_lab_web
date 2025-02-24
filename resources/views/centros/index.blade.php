@@ -18,7 +18,9 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Dirección</th>
-                    <th>Acciones</th>
+                    @if(auth()->check() && optional(auth()->user()->role)->name == 'Administrador')
+                        <th>Acciones</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -27,21 +29,25 @@
                         <td>{{ $centro->id }}</td>
                         <td>{{ $centro->nombre }}</td>
                         <td>{{ $centro->direccion }}</td>
-                        <td>
-                            <!-- Botón para eliminar centro médico -->
-                            <form action="{{ route('centros.destroy', $centro->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este centro médico?')">Eliminar</button>
-                            </form>
-                        </td>
+                        @if(auth()->check() && optional(auth()->user()->role)->name == 'Administrador')
+                            <td>
+                                <!-- Botón para eliminar centro médico -->
+                                <form action="{{ route('centros.destroy', $centro->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este centro médico?')">Eliminar</button>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <div class="text-center mt-3">
-            <a href="{{ route('centros.create') }}" class="btn btn-success">Crear Nuevo Centro Médico</a>
-        </div>
+        @if(auth()->check() && optional(auth()->user()->role)->name == 'Administrador')
+            <div class="text-center mt-3">
+                <a href="{{ route('centros.create') }}" class="btn btn-success">Crear Nuevo Centro Médico</a>
+            </div>
+        @endif
     </div>
 @endsection

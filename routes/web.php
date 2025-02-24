@@ -9,6 +9,8 @@ use App\Http\Controllers\CitaLaboratorioViewController;
 use App\Http\Controllers\GrupoViewController;
 use App\Http\Controllers\RecomendacionesViewController;
 use App\Http\Controllers\RelacionController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-   return view('welcome');
+   return view('auth.login');
 });
 
 
@@ -93,3 +95,17 @@ Route::get('/recomendaciones', [RecomendacionesViewController::class, 'index'])-
 Route::get('/recomendaciones/create', [RecomendacionesViewController::class, 'create'])->name('recomendaciones.create');
 Route::post('/recomendaciones', [RecomendacionesViewController::class, 'store'])->name('recomendaciones.store');
 Route::delete('/recomendaciones/{id}', [RecomendacionesViewController::class, 'destroy'])->name('recomendaciones.destroy');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Rutas de Usuarios sin resource
+Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Listar usuarios
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create'); // Formulario de crear usuario
+Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Guardar usuario
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show'); // Ver un usuario
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit'); // Formulario de edición
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); // Actualizar usuario
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); // Eliminar usuario
