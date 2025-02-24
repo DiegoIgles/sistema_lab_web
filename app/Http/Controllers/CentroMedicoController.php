@@ -6,6 +6,7 @@ use App\Models\Bitacora;
 use App\Models\CentroMedico;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CentroMedicoController extends Controller
 {
@@ -132,24 +133,42 @@ public function destroyAssociation(Request $request)
     // Eliminar la asociación entre el Centro Médico y el Grupo
     $centroMedico->grupos()->detach($grupoId);
 
-   //centro medico
-   Bitacora::create([
-    'accion' => 'DESHABILITADO',
-    'nombre_laboratorio' => $grupo->nombre,
-    'nombre_centro_medico' => $centroMedico->nombre,
-    'fecha_accion' => now(),
+    // Registrar la acción en la bitácora con el nombre del usuario autenticado
+    Bitacora::create([
+        'accion' => 'DESHABILITADO',
+        'nombre_laboratorio' => $grupo->nombre,
+        'nombre_centro_medico' => $centroMedico->nombre,
+        'nombre_usuario' => auth()->user()->name, // Manejo seguro de usuario
+        'fecha_accion' => now(),
     ]);
 
     // Redirigir con mensaje de éxito
-    return redirect()->route('centrosMedicos.showRemoveAssociation')->with('success', 'La asociación entre el Centro Médico y el Grupo ha sido eliminada.');
+    return redirect()->route('centrosMedicos.showRemoveAssociation')
+        ->with('success', 'La asociación entre el Centro Médico y el Grupo ha sido eliminada.');
 }
+
 public function showRemoveAssociation()
 {
-    // Obtener todos los Centros Médicos y Grupos disponibles
-    $centrosMedicos = CentroMedico::all();
-    $grupos = Grupo::all();
+    $user = Auth::user();
 
-    // Mostrar la vista donde se puede seleccionar el Centro Médico y el Grupo
+    // Verificar si el usuario tiene un rol asignado
+    if (!$user || !$user->role) {
+        return redirect()->back()->with('error', 'No tienes un rol asignado para eliminar una asociación.');
+    }
+
+    // Si el usuario es Administrador, obtiene todos los Centros Médicos y Grupos
+    if (strtoupper($user->role->name) === 'ADMINISTRADOR') {
+        $centrosMedicos = CentroMedico::all();
+        $grupos = Grupo::all();
+    } else {
+        // Si no es Administrador, filtra los Centros Médicos y Grupos según su rol
+        $nombreRol = strtoupper($user->role->name);
+        $centrosMedicos = CentroMedico::where('nombre', 'LIKE', "%$nombreRol%")->get();
+        $grupos = Grupo::where('nombre', 'LIKE', "%$nombreRol%")->get();
+    }
+
+    // Mostrar la vista con los datos filtrados
     return view('centro_medico_grupo.removeAssociation', compact('centrosMedicos', 'grupos'));
 }
+
 }

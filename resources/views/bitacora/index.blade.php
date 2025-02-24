@@ -16,7 +16,7 @@
                 <tr>
                     <th>Acción</th>
                     <th>Laboratorio</th>
-                    <th>Centro Médico</th>
+                    <th>Usuario</th>
                     <th>Fecha</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ ucfirst($entry->accion) }}</td>
                         <td>{{ $entry->nombre_laboratorio }}</td>
-                        <td>{{ $entry->nombre_centro_medico }}</td>
+                        <td>{{ $entry->nombre_usuario }}</td>
                         <td>{{ \Carbon\Carbon::parse($entry->fecha_accion)->format('d/m/Y H:i') }}</td>
                     </tr>
                 @endforeach

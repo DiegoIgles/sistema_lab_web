@@ -4,11 +4,11 @@
 <div class="container">
     <h2>Centros Médicos y sus Grupos Asociados</h2>
 
-    <!-- Botón para redirigir a la página de creación de asociación -->
-    <a href="{{ route('centro_medico_grupo.create') }}" class="btn btn-success mb-3">Crear Asociación</a>
-
-    <!-- Botón para redirigir a la página de eliminación de asociación -->
-    <a href="{{ route('centrosMedicos.showRemoveAssociation') }}" class="btn btn-danger mb-3">Eliminar Asociación</a>
+    @if(auth()->user()->role)
+        <!-- Mostrar botones para cualquier rol excepto si el rol es null -->
+        <a href="{{ route('centro_medico_grupo.create') }}" class="btn btn-success mb-3">Crear Asociación</a>
+        <a href="{{ route('centrosMedicos.showRemoveAssociation') }}" class="btn btn-danger mb-3">Eliminar Asociación</a>
+    @endif
 
     @if($centrosMedicos->isEmpty())
         <div class="alert alert-warning">No hay Centros Médicos disponibles.</div>

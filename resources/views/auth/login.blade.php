@@ -3,7 +3,7 @@
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="row w-100">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-6 col-lg-5 mx-auto">
             <div class="card shadow-lg rounded-lg border-0">
                 <div class="card-header bg-black text-white text-center font-weight-bold py-3">
                     <h3>{{ __('Login') }}</h3>
@@ -39,16 +39,18 @@
                             </label>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button type="submit" class="btn btn-dark px-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-dark px-4 w-100 w-md-auto mb-2">
                                 {{ __('Login') }}
                             </button>
+
                             @if (Route::has('password.request'))
-                                <a class="btn btn-link text-decoration-none" href="{{ route('password.request') }}">
+                                <a class="btn btn-link text-decoration-none w-100 w-md-auto mb-2 text-center" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             @endif
-                            <a class="btn btn-secondary px-4" href="{{ route('register') }}">
+
+                            <a class="btn btn-secondary px-4 w-100 w-md-auto" href="{{ route('register') }}">
                                 {{ __('Register') }}
                             </a>
                         </div>

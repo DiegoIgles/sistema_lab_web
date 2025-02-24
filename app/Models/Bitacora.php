@@ -14,7 +14,7 @@ class Bitacora extends Model
     protected $fillable = [
         'accion',
         'nombre_laboratorio',
-        'nombre_centro_medico',
+        'nombre_usuario',
         'fecha_accion',
     ];
 }

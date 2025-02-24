@@ -5,13 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GrupoViewController extends Controller
 {
     public function index()
     {
-        // Obtiene todos los grupos con sus laboratorios asociados
-        $grupos = Grupo::with('laboratorios')->get();
+        $user = Auth::user();
+        if (!$user || !$user->role) {
+            return redirect()->back()->with('error', 'No tienes un rol asignado para ver la disponibilidad.');
+        }
+        if ($user && $user->role) {
+            $roleName = strtolower(trim($user->role->name)); // Convertimos el nombre del rol a minúsculas y eliminamos espacios extras
+
+            if ($roleName === 'administrador') {
+                // Si el usuario es Administrador, ve todos los grupos
+                $grupos = Grupo::all();
+            } else {
+                // Para otros roles, filtrar los grupos cuyo nombre contenga el nombre del rol
+                $grupos = Grupo::whereRaw("LOWER(nombre) LIKE ?", ["%$roleName%"])->get();
+            }
+        } else {
+            $grupos = collect(); // Si no hay rol, devolver una colección vacía
+        }
 
         return view('grupos.index', compact('grupos'));
     }
@@ -39,11 +55,24 @@ class GrupoViewController extends Controller
 //
 public function asignarLaboratorioView()
 {
-    // Obtener todos los grupos y laboratorios disponibles
-    $grupos = Grupo::all();
+    $user = Auth::user();
+
+    if (!$user || !$user->role) {
+        return redirect()->back()->with('error', 'No tienes un rol asignado.');
+    }
+
+    // Si el usuario es administrador, obtiene todos los grupos
+    if (strtoupper($user->role->name) === 'ADMINISTRADOR') {
+        $grupos = Grupo::all();
+    } else {
+        // Si no es administrador, filtra los grupos según su rol
+        $nombreRol = strtoupper($user->role->name);
+        $grupos = Grupo::where('nombre', 'LIKE', "%$nombreRol%")->get();
+    }
+
+    // Obtener todos los laboratorios sin filtros
     $laboratorios = Laboratorio::all();
 
-    // Pasar los grupos y laboratorios a la vista
     return view('grupos.asignar_laboratorio', compact('grupos', 'laboratorios'));
 }
 
@@ -99,8 +128,24 @@ public function eliminarGrupo(Request $request)
 }
 public function eliminarAsociacionView()
 {
-    $grupos = Grupo::all();
+    $user = Auth::user();
+
+    if (!$user || !$user->role) {
+        return redirect()->back()->with('error', 'No tienes un rol asignado.');
+    }
+
+    // Si el usuario es administrador, obtiene todos los grupos
+    if (strtoupper($user->role->name) === 'ADMINISTRADOR') {
+        $grupos = Grupo::all();
+    } else {
+        // Si no es administrador, filtra los grupos según su rol
+        $nombreRol = strtoupper($user->role->name);
+        $grupos = Grupo::where('nombre', 'LIKE', "%$nombreRol%")->get();
+    }
+
+    // Obtener todos los laboratorios sin filtros
     $laboratorios = Laboratorio::all();
+
     return view('grupos.eliminar_asociacion', compact('grupos', 'laboratorios'));
 }
 public function eliminarAsociacionGrupoLaboratorio(Request $request)
@@ -124,7 +169,7 @@ public function eliminarAsociacionGrupoLaboratorio(Request $request)
     $grupo->laboratorios()->detach($laboratorio->id);
 
     // Redirigir con mensaje de éxito
-    return redirect()->route('grupos.eliminarAsociacionView')->with('success', 'Asociación eliminada correctamente.');
+    return redirect()->route('grupos.index')->with('success', 'Asociación eliminada correctamente.');
 }
 
 }

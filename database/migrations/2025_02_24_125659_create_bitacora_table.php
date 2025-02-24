@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('bitacora', function (Blueprint $table) {
             $table->id(); // Clave primaria
-            $table->string('accion'); // Acción: 'Asociación creada' o 'Asociación eliminada'
-            $table->string('nombre_laboratorio'); // Nombre del laboratorio (grupo)
-            $table->string('nombre_centro_medico'); // Nombre del centro médico
-            $table->timestamp('fecha_accion')->useCurrent(); // Fecha y hora de la acción
-            $table->timestamps(); // Timestamps para created_at y updated_at
+    $table->string('accion'); // Acción: 'Asociación creada' o 'Asociación eliminada'
+    $table->string('nombre_laboratorio'); // Nombre del laboratorio (grupo)
+    $table->string('nombre_usuario'); // Nombre del usuario que realizó la acción
+    $table->timestamp('fecha_accion')->useCurrent(); // Fecha y hora de la acción
+    $table->timestamps(); // Timestamps para created_at y updated_at
         });
     }
 

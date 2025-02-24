@@ -2,17 +2,31 @@
 
 @section('content')
     <div class="container mt-5">
+        <!-- Mensajes de éxito o error sin botón de cierre -->
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center">Lista de Grupos</h1>
 
-            <!-- Botón para deshabilitar asociación (redirige a 'grupos.eliminarAsociacionView') -->
-            <a href="{{ route('grupos.eliminarAsociacionView') }}" class="btn btn-danger">Deshabilitar Asociación</a>
+            @if(Auth::user() && Auth::user()->role)
+                <!-- Mostrar botones solo si el usuario tiene un rol -->
+                <a href="{{ route('grupos.eliminarAsociacionView') }}" class="btn btn-danger">Deshabilitar Asociación</a>
+                <a href="{{ route('grupos.asignarLaboratorioView') }}" class="btn btn-success">Asignar Laboratorio a Grupo</a>
 
-            <!-- Botón para acceder a la vista de asociación de grupo y laboratorio -->
-            <a href="{{ route('grupos.asignarLaboratorioView') }}" class="btn btn-success">Asignar Laboratorio a Grupo</a>
-
-            <!-- Botón para crear un nuevo grupo -->
-            <a href="{{ route('grupos.create') }}" class="btn btn-primary">Crear Nuevo Grupo</a>
+                @if(Auth::user()->role->name === 'Administrador')
+                    <a href="{{ route('grupos.create') }}" class="btn btn-primary">Crear Nuevo Grupo</a>
+                @endif
+            @endif
         </div>
 
         <!-- Tabla de grupos -->
@@ -28,7 +42,6 @@
                     <tr>
                         <td>{{ $grupo->nombre }}</td>
                         <td>
-                            <!-- Verificar si el grupo tiene laboratorios asociados -->
                             @if($grupo->laboratorios->isEmpty())
                                 <span>No hay laboratorios asociados</span>
                             @else
@@ -44,8 +57,9 @@
             </tbody>
         </table>
 
-        <!-- Botón para acceder a la vista de eliminación de grupos -->
-        <a href="{{ route('grupos.eliminar.view') }}" class="btn btn-danger">Eliminar Grupo</a>
-
-    </div><br>
+        @if(Auth::user() && Auth::user()->role && Auth::user()->role->name === 'Administrador')
+            <a href="{{ route('grupos.eliminar.view') }}" class="btn btn-danger">Eliminar Grupo</a>
+        @endif
+    </div>
+    <br>
 @endsection

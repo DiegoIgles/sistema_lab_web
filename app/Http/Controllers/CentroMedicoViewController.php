@@ -6,12 +6,18 @@ use App\Models\Bitacora;
 use App\Models\CentroMedico;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CentroMedicoViewController extends Controller
 {
     // Mostrar todos los centros médicos
     public function index()
     {
+        $user = Auth::user();
+
+        if (!$user || !$user->role) {
+            return redirect()->back()->with('error', 'No tienes un rol asignado para ver la disponibilidad.');
+        }
         $centrosMedicos = CentroMedico::all(); // Obtener todos los centros médicos
         return view('centros.index', compact('centrosMedicos'));
     }
@@ -65,7 +71,7 @@ public function eliminarRelacion(Request $request)
         'laboratorio_id' => 'required|integer|exists:laboratorio,id',
     ]);
 
-    // Buscar el centro médico
+    // Buscar el centro médico y el laboratorio
     $centroMedico = CentroMedico::find($request->centros_medicos_id);
     $laboratorio = Laboratorio::find($request->laboratorio_id);
 
@@ -77,14 +83,16 @@ public function eliminarRelacion(Request $request)
     // Eliminar la relación
     $centroMedico->laboratorios()->detach($request->laboratorio_id);
 
-   // Registrar la acción en la bitácora
-   Bitacora::create([
-    'accion' => 'DESHABILITADO', // La acción es "DESHABILITADO"
-    'nombre_laboratorio' => $laboratorio->nombre,
-    'nombre_centro_medico' => $centroMedico->nombre,
+    // Registrar la acción en la bitácora con el nombre del usuario autenticado
+    Bitacora::create([
+        'accion' => 'DESHABILITADO', // La acción es "DESHABILITADO"
+        'nombre_laboratorio' => $laboratorio->nombre,
+        'nombre_usuario' => auth()->user()->name, // Guardar el nombre del usuario autenticado
+        'fecha_accion' => now(),
     ]);
 
     return back()->with('success', 'Relación eliminada exitosamente.');
 }
+
 
 }

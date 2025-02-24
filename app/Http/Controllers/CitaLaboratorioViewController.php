@@ -7,41 +7,85 @@ use App\Models\CitaLaboratorio;
 use App\Models\Grupo;
 use App\Models\Reserva;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CitaLaboratorioViewController extends Controller
 {
     public function showDisponibilidadForm(Request $request)
     {
-        // Obtener todos los centros médicos y grupos
-        $centrosMedicos = CentroMedico::all();
-        $grupos = Grupo::all();
+        $user = Auth::user();
 
-        // Variables para las citas (si se hace búsqueda)
-        $citas = null;
-
-        // Si el formulario fue enviado (se hace la búsqueda)
-        if ($request->isMethod('get') && $request->has('centro_medico_id') && $request->has('grupo_id') && $request->has('fecha')) {
-            // Filtrar las citas según los datos enviados
-            $citas = CitaLaboratorio::where('centro_medico_id', $request->centro_medico_id)
-                ->where('grupo_id', $request->grupo_id)
-                ->where('fecha', $request->fecha)
-                ->get();
+        if (!$user || !$user->role) {
+            return redirect()->back()->with('error', 'No tienes un rol asignado para ver la disponibilidad.');
         }
+
+        // Obtener lista de centros y grupos según el rol del usuario
+        if (strtoupper($user->role->name) === 'ADMINISTRADOR') {
+            $centrosMedicos = CentroMedico::all();
+            $grupos = Grupo::all();
+        } else {
+            $nombreRol = strtoupper($user->role->name);
+            $centrosMedicos = CentroMedico::where('nombre', 'LIKE', "%$nombreRol%")->get();
+            $grupos = Grupo::where('nombre', 'LIKE', "%$nombreRol%")->get();
+        }
+
+        // Inicializar consulta
+        $query = CitaLaboratorio::query();
+
+        // Aplicar filtros solo si hay valores seleccionados
+        if ($request->has('centro_medico_id') && $request->centro_medico_id != '') {
+            $query->where('centro_medico_id', $request->centro_medico_id);
+        }
+
+        if ($request->has('grupo_id') && $request->grupo_id != '') {
+            $query->where('grupo_id', $request->grupo_id);
+        }
+
+        if ($request->has('fecha') && $request->fecha != '') {
+            $query->where('fecha', $request->fecha);
+        }
+
+        // Restringir la consulta si el usuario no es administrador
+        if (strtoupper($user->role->name) !== 'ADMINISTRADOR') {
+            $query->whereHas('centroMedico', function ($q) use ($nombreRol) {
+                $q->where('nombre', 'LIKE', "%$nombreRol%");
+            })->whereHas('grupo', function ($q) use ($nombreRol) {
+                $q->where('nombre', 'LIKE', "%$nombreRol%");
+            });
+        }
+
+        // Obtener los resultados
+        $citas = $query->get();
 
         return view('admin.disponibilidad', compact('centrosMedicos', 'grupos', 'citas'));
     }
 
 
+
     //crear cita admin
+
     public function showCrearCitaForm()
     {
-        // Obtener todos los centros médicos y grupos
-        $centrosMedicos = CentroMedico::all();
-        $grupos = Grupo::all();
+        $user = Auth::user();
 
-        // Retornar la vista con los datos necesarios
+        if (!$user || !$user->role) {
+            return redirect()->back()->with('error', 'No tienes un rol asignado para crear una cita.');
+        }
+
+        if (strtoupper($user->role->name) === 'ADMINISTRADOR') {
+            // Si es Administrador, obtiene todos los registros
+            $centrosMedicos = CentroMedico::all();
+            $grupos = Grupo::all();
+        } else {
+            // Si no es Administrador, filtra por el rol del usuario
+            $nombreRol = strtoupper($user->role->name);
+            $centrosMedicos = CentroMedico::where('nombre', 'LIKE', "%$nombreRol%")->get();
+            $grupos = Grupo::where('nombre', 'LIKE', "%$nombreRol%")->get();
+        }
+
         return view('admin.crearCita', compact('centrosMedicos', 'grupos'));
     }
+
 
     public function crearCita(Request $request)
     {
@@ -93,6 +137,11 @@ class CitaLaboratorioViewController extends Controller
 // vista reservas
 public function obtenerReservasAdmin(Request $request)
 {
+    $user = Auth::user();
+
+    if (!$user || !$user->role) {
+        return redirect()->back()->with('error', 'No tienes un rol asignado para ver la disponibilidad.');
+    }
     // Obtener los filtros desde el formulario
     $centroMedicoId = $request->input('centro_medico_id');
     $fechaCita = $request->input('fecha');
